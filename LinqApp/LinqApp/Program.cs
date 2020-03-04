@@ -25,10 +25,10 @@ namespace LinqApp
         static void Main(string[] args)
         {
             List<Student> lst = new List<Student>();
-            lst.Add(new Student() { Id = 1, Fio = "Иванов", Age = 20 });
-            lst.Add(new Student() { Id = 3, Fio = "Петров", Age = 15 });
-            lst.Add(new Student() { Id = 4, Fio = "Марков", Age = 26 });
-            lst.Add(new Student() { Id = 2, Fio = "Сидоров", Age = 33 });
+            lst.Add(new Student() { Id = 1, Fio = "Иванов Петр Петрович", Age = 20 });
+            lst.Add(new Student() { Id = 3, Fio = "Петров Иван", Age = 15 });
+            lst.Add(new Student() { Id = 4, Fio = "Марков Фёдор", Age = 26 });
+            lst.Add(new Student() { Id = 2, Fio = "Сидоров Марк", Age = 33 });
             lst.Add(new Student() { Id = 5, Fio = "Коннов", Age = 22 });
 
 
@@ -43,6 +43,10 @@ namespace LinqApp
                 Console.WriteLine(st);
             }
 
+            foreach (var st in lst.SelectMany(st => st.Fio.Split(' ')).OrderBy(str=>str))
+            {
+                Console.WriteLine(st);
+            }
         }
     }
 }
