@@ -20,6 +20,7 @@ namespace ContosoApp.Controllers
 
         public IActionResult Index()
         {
+           
             return View();
         }
 
