@@ -31,7 +31,7 @@ namespace IdentityApp_
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<MyUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<MyUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();

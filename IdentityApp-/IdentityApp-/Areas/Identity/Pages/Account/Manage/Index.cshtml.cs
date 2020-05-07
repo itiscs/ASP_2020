@@ -36,18 +36,26 @@ namespace IdentityApp_.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Возраст")]
+            public int Age { get; set; }
+
+            [Display(Name = "Город")]
+            public string City { get; set; }
         }
 
         private async Task LoadAsync(MyUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Age = user.Age,
+                City = user.City
             };
         }
 
@@ -86,6 +94,16 @@ namespace IdentityApp_.Areas.Identity.Pages.Account.Manage
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
+            }
+            if (Input.Age != user.Age)
+            {
+                user.Age = Input.Age;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.City != user.City)
+            {
+                user.City = Input.City;
+                await _userManager.UpdateAsync(user);
             }
 
             await _signInManager.RefreshSignInAsync(user);
