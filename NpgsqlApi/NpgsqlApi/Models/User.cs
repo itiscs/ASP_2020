@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApiApp.Models
+namespace NpgsqlApi.Models
 {
     public class User
     {
@@ -13,22 +13,19 @@ namespace WebApiApp.Models
         public int Age { get; set; }
     }
 
-    public class UsersContext : DbContext
+    public class UsersDB : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public UsersContext(DbContextOptions<UsersContext> options)
-            : base(options)
-        {
-           // Database.EnsureCreated();
-        }
 
+        public DbSet<User> Users { get; set; }
+
+        public UsersDB(DbContextOptions<UsersDB> options)
+           : base(options)
+        {
+            // Database.EnsureCreated();
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=127.0.0.1;Port=5432;Database=users2020;Username=postgres;Password=1");
+            optionsBuilder.UseNpgsql("Server = 127.0.0.1; UserId = postgres; Password = 1; Port = 5432; Database = UsersDB2020;");
         }
-
-
     }
-
-
 }

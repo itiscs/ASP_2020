@@ -4,17 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Npgsql.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using WebApiApp.Models;
+using Npgsql.EntityFrameworkCore;
+using NpgsqlApi.Models;
 
-namespace WebApiApp
+namespace NpgsqlApi
 {
     public class Startup
     {
@@ -28,10 +27,9 @@ namespace WebApiApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string con = "Host = 127.0.0.1; Port = 5432; Database = users2020; Username = postgres; Password = 1";
-            // устанавливаем контекст данных
-            services.AddDbContext<UsersContext>(options => options.UseNpgsql(con));
-
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<UsersDB>(options =>
+                           options.UseNpgsql(connection));
             services.AddControllers();
         }
 
@@ -42,8 +40,6 @@ namespace WebApiApp
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
